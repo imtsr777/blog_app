@@ -3,6 +3,7 @@ import userRoutes from './routes/userRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 import postRoutes from './routes/postRoutes.js'
 import catgRoutes from './routes/catgRoutes.js'
+import superUser from './routes/superAdminRoutes.js'
 import fileupload from 'express-fileupload'
 import postgres from './utils/postgres.js'
 import path from 'path'
@@ -19,7 +20,7 @@ app.use('/users',userRoutes.router)
 app.use('/post',postRoutes.router)
 
 app.use('/categories',catgRoutes.router)
-
+app.use('/superadmin',superUser.router)
 
 
 app.listen(PORT,()=>{console.log("server is running "+PORT)})

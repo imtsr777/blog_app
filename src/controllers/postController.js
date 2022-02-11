@@ -40,12 +40,20 @@ const ADDPOST = async(req,res)=>{
 }
 
 const GETPOST = async(req,res)=>{
+    let { postid = 0 } = req.query
+    
     const newPost = await req.fetch(`
         select p.imageurl,p.title,p.createddata,c.categoryname,
         concat(u.firstname,' ',u.lastname) as fullname from posts p
          inner join categories c on p.category = c.categoryid
-         inner join users u on p.userid = u.userid order by p.createddata desc
-        `)
+         inner join users u on p.userid = u.userid 
+         where
+            case
+                when $1 > 0 then p.postid = $1
+                else true
+            end
+            order by p.createddata desc
+        `,postid)
 
     res.json(newPost)
 }
