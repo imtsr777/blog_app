@@ -10,7 +10,8 @@ const pool = new pg.Pool({
 
 export default (req, res, next) => {
 
-	req.fetch = async function (query, ...params) {
+	try{
+		req.fetch = async function (query, ...params) {
 		const client = await pool.connect()
 		try {
 			const { rows } = await client.query(query, params.length ? params : null)
@@ -20,6 +21,10 @@ export default (req, res, next) => {
 		} finally {
 			client.release()
 		}
+	}}
+	
+	catch(error){
+		res.status(400).json({message:error.message})
 	}
 
 	return next()
