@@ -4,7 +4,7 @@ const ADDPOST = async(req,res)=>{
     try{
 
         const {userid,role} = req.userInfo
-        if(role !== 'user') res.status(400).json({message:"Only admin can add post"})
+        if(role !== 'admin') res.status(400).json({message:"Only admin can add post"})
         let mimeTypes = ['image/jpeg','image/svg+xml','image/png']
         
         if(!req.files) res.status(400).json({message:"You must upload image"})
@@ -46,7 +46,7 @@ const GETPOST = async(req,res)=>{
          inner join categories c on p.category = c.categoryid
          inner join users u on p.userid = u.userid order by p.createddata desc
         `)
-        
+
     res.json(newPost)
 }
 
